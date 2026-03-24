@@ -1,0 +1,43 @@
+{#include main.html}
+{#title}Pessoas{/title}
+
+<div style="padding: 1em;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+    <h1 style="margin: 0;">Pessoas</h1>
+    <a href="{uri:Pessoas.nova}">+ Nova Pessoa</a>
+  </div>
+
+  {#if pessoas.isEmpty}
+    <p>Nenhuma pessoa cadastrada.</p>
+  {#else}
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid black;">
+          <th style="text-align: left; padding: 0.5em;">Nome</th>
+          <th style="text-align: left; padding: 0.5em;">E-mail</th>
+          <th style="text-align: left; padding: 0.5em;">Sexo</th>
+          <th style="text-align: left; padding: 0.5em;">Estado Civil</th>
+          <th style="padding: 0.5em;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for pessoa in pessoas}
+        <tr style="border-bottom: 1px solid #ccc;">
+          <td style="padding: 0.5em;">{pessoa.nomeCompleto}</td>
+          <td style="padding: 0.5em;">{pessoa.email ?: '-'}</td>
+          <td style="padding: 0.5em;">{pessoa.sexo ?: '-'}</td>
+          <td style="padding: 0.5em;">{pessoa.estadoCivil ?: '-'}</td>
+          <td style="padding: 0.5em; white-space: nowrap;">
+            <a href="{uri:Pessoas.editar(pessoa.id)}">Editar</a>
+            {#form uri:Pessoas.excluir(pessoa.id)}
+              <button type="submit" onclick="return confirm('Confirmar exclusão de {pessoa.nomeCompleto}?')">Excluir</button>
+            {/form}
+          </td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+  {/if}
+</div>
+
+{/include}

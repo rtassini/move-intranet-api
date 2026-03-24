@@ -1,0 +1,222 @@
+{#include main.html}
+{#title}Editar Pessoa{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error, .field select.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+  .form-row { display: flex; gap: 1em; }
+  .form-row .field { flex: 1; }
+  .checkbox-field { display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.5em; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 900px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:Pessoas.lista}">← Voltar</a>
+    <h1>Editar Pessoa</h1>
+  </div>
+
+  {#form uri:Pessoas.atualizar(pessoa.id)}
+
+    <fieldset class="form-section">
+      <legend>Dados Pessoais</legend>
+
+      <div class="field">
+        <label>Nome Completo *</label>
+        <input name="nomeCompleto" value="{pessoa.nomeCompleto}" {#ifError 'nomeCompleto'}class="error"{/}/>
+        {#ifError 'nomeCompleto'}<span class="error-msg">{#error 'nomeCompleto'/}</span>{/ifError}
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Nome Social</label>
+          <input name="nomeSocial" value="{pessoa.nomeSocial}"/>
+        </div>
+        <div class="field">
+          <label>Sexo</label>
+          <select name="sexo">
+            <option value="">--</option>
+            <option value="MASCULINO" {#if pessoa.sexo == 'MASCULINO'}selected{/if}>Masculino</option>
+            <option value="FEMININO" {#if pessoa.sexo == 'FEMININO'}selected{/if}>Feminino</option>
+            <option value="NAO_INFORMADO" {#if pessoa.sexo == 'NAO_INFORMADO'}selected{/if}>Não Informado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Data de Nascimento</label>
+          <input type="date" name="dataNascimento" value="{pessoa.dataNascimento}"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Estado Civil</label>
+          <select name="estadoCivil">
+            <option value="">--</option>
+            <option value="SOLTEIRO" {#if pessoa.estadoCivil == 'SOLTEIRO'}selected{/if}>Solteiro(a)</option>
+            <option value="CASADO" {#if pessoa.estadoCivil == 'CASADO'}selected{/if}>Casado(a)</option>
+            <option value="DIVORCIADO" {#if pessoa.estadoCivil == 'DIVORCIADO'}selected{/if}>Divorciado(a)</option>
+            <option value="VIUVO" {#if pessoa.estadoCivil == 'VIUVO'}selected{/if}>Viúvo(a)</option>
+            <option value="UNIAO_ESTAVEL" {#if pessoa.estadoCivil == 'UNIAO_ESTAVEL'}selected{/if}>União Estável</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tipo Sanguíneo</label>
+          <select name="tipoSanguineo">
+            <option value="">--</option>
+            <option value="A+" {#if pessoa.tipoSanguineo == 'A+'}selected{/if}>A+</option>
+            <option value="A-" {#if pessoa.tipoSanguineo == 'A-'}selected{/if}>A-</option>
+            <option value="B+" {#if pessoa.tipoSanguineo == 'B+'}selected{/if}>B+</option>
+            <option value="B-" {#if pessoa.tipoSanguineo == 'B-'}selected{/if}>B-</option>
+            <option value="AB+" {#if pessoa.tipoSanguineo == 'AB+'}selected{/if}>AB+</option>
+            <option value="AB-" {#if pessoa.tipoSanguineo == 'AB-'}selected{/if}>AB-</option>
+            <option value="O+" {#if pessoa.tipoSanguineo == 'O+'}selected{/if}>O+</option>
+            <option value="O-" {#if pessoa.tipoSanguineo == 'O-'}selected{/if}>O-</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Raça</label>
+          <select name="raca">
+            <option value="">--</option>
+            <option value="BRANCA" {#if pessoa.raca == 'BRANCA'}selected{/if}>Branca</option>
+            <option value="PRETA" {#if pessoa.raca == 'PRETA'}selected{/if}>Preta</option>
+            <option value="PARDA" {#if pessoa.raca == 'PARDA'}selected{/if}>Parda</option>
+            <option value="AMARELA" {#if pessoa.raca == 'AMARELA'}selected{/if}>Amarela</option>
+            <option value="INDIGENA" {#if pessoa.raca == 'INDIGENA'}selected{/if}>Indígena</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Nome da Mãe</label>
+          <input name="nomeMae" value="{pessoa.nomeMae}"/>
+        </div>
+        <div class="field">
+          <label>Nome do Pai</label>
+          <input name="nomePai" value="{pessoa.nomePai}"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Nacionalidade</label>
+          <input name="nacionalidade" value="{pessoa.nacionalidade}"/>
+        </div>
+        <div class="field">
+          <label>Naturalidade</label>
+          <input name="naturalidade" value="{pessoa.naturalidade}"/>
+        </div>
+        <div class="field">
+          <label>Religião</label>
+          <input name="religiao" value="{pessoa.religiao}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Deficiência e Dependentes</legend>
+
+      <div class="checkbox-field">
+        <input type="checkbox" name="possuiDependentes" value="true" id="possuiDependentes" {#if pessoa.possuiDependentes}checked{/if}/>
+        <label for="possuiDependentes">Possui Dependentes</label>
+      </div>
+
+      <div class="checkbox-field">
+        <input type="checkbox" name="pcd" value="true" id="pcd" {#if pessoa.pcd}checked{/if}/>
+        <label for="pcd">PCD (Pessoa com Deficiência)</label>
+      </div>
+
+      <div class="field">
+        <label>Tipo de Deficiência</label>
+        <input name="tipoDeficiencia" value="{pessoa.tipoDeficiencia}"/>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Escolaridade</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Escolaridade</label>
+          <select name="escolaridade">
+            <option value="">--</option>
+            <option value="FUNDAMENTAL_INCOMPLETO" {#if pessoa.escolaridade == 'FUNDAMENTAL_INCOMPLETO'}selected{/if}>Fundamental Incompleto</option>
+            <option value="FUNDAMENTAL_COMPLETO" {#if pessoa.escolaridade == 'FUNDAMENTAL_COMPLETO'}selected{/if}>Fundamental Completo</option>
+            <option value="MEDIO_INCOMPLETO" {#if pessoa.escolaridade == 'MEDIO_INCOMPLETO'}selected{/if}>Médio Incompleto</option>
+            <option value="MEDIO_COMPLETO" {#if pessoa.escolaridade == 'MEDIO_COMPLETO'}selected{/if}>Médio Completo</option>
+            <option value="SUPERIOR_INCOMPLETO" {#if pessoa.escolaridade == 'SUPERIOR_INCOMPLETO'}selected{/if}>Superior Incompleto</option>
+            <option value="SUPERIOR_COMPLETO" {#if pessoa.escolaridade == 'SUPERIOR_COMPLETO'}selected{/if}>Superior Completo</option>
+            <option value="POS_GRADUACAO" {#if pessoa.escolaridade == 'POS_GRADUACAO'}selected{/if}>Pós-Graduação</option>
+            <option value="MESTRADO" {#if pessoa.escolaridade == 'MESTRADO'}selected{/if}>Mestrado</option>
+            <option value="DOUTORADO" {#if pessoa.escolaridade == 'DOUTORADO'}selected{/if}>Doutorado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Instituição Escolar</label>
+          <input name="instituicaoEscolar" value="{pessoa.instituicaoEscolar}"/>
+        </div>
+        <div class="field">
+          <label>Data de Conclusão</label>
+          <input type="date" name="dataConclusaoEscolar" value="{pessoa.dataConclusaoEscolar}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Contato</legend>
+
+      <div class="field" style="max-width: 400px;">
+        <label>E-mail</label>
+        <input type="email" name="email" value="{pessoa.email}"/>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Endereço</legend>
+
+      <div class="form-row">
+        <div class="field" style="flex: 3;">
+          <label>Logradouro</label>
+          <input name="logradouro" value="{pessoa.logradouro}"/>
+        </div>
+        <div class="field" style="flex: 1;">
+          <label>Número</label>
+          <input name="numero" value="{pessoa.numero}"/>
+        </div>
+        <div class="field" style="flex: 2;">
+          <label>Complemento</label>
+          <input name="complemento" value="{pessoa.complemento}"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Bairro</label>
+          <input name="bairro" value="{pessoa.bairro}"/>
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input name="cidade" value="{pessoa.cidade}"/>
+        </div>
+        <div class="field" style="flex: 0.5;">
+          <label>UF</label>
+          <input name="uf" maxlength="2" value="{pessoa.uf}"/>
+        </div>
+        <div class="field">
+          <label>CEP</label>
+          <input name="cep" maxlength="9" value="{pessoa.cep}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit">Salvar</button>
+
+  {/form}
+</div>
+
+{/include}

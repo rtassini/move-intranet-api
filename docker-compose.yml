@@ -1,0 +1,15 @@
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: move-intranet
+      POSTGRES_USER: move
+      POSTGRES_PASSWORD: move
+    ports:
+      - "5432:5432"
+    volumes:
+      - move_data:/var/lib/postgresql/data
+
+volumes:
+  move_data:
