@@ -111,6 +111,41 @@ public class Pessoa {
     @Column(name = "deleted_at")
     public LocalDateTime deletedAt;
 
+    public void aplicar(String nomeCompleto, String nomeSocial, String sexo,
+            LocalDate dataNascimento, String nomeMae, String nomePai, String raca, String religiao,
+            String nacionalidade, String naturalidade, String tipoSanguineo, String estadoCivil,
+            boolean possuiDependentes, boolean pcd, String tipoDeficiencia, String escolaridade,
+            String instituicaoEscolar, LocalDate dataConclusaoEscolar, String email,
+            String logradouro, String numero, String complemento, String bairro, String cidade,
+            String uf, String cep) {
+        this.nomeCompleto = nomeCompleto;
+        this.nomeSocial = nomeSocial;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.nomeMae = nomeMae;
+        this.nomePai = nomePai;
+        this.raca = raca;
+        this.religiao = religiao;
+        this.nacionalidade = nacionalidade;
+        this.naturalidade = naturalidade;
+        this.tipoSanguineo = tipoSanguineo;
+        this.estadoCivil = estadoCivil;
+        this.possuiDependentes = possuiDependentes;
+        this.pcd = pcd;
+        this.tipoDeficiencia = tipoDeficiencia;
+        this.escolaridade = escolaridade;
+        this.instituicaoEscolar = instituicaoEscolar;
+        this.dataConclusaoEscolar = dataConclusaoEscolar;
+        this.email = email;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.cep = cep;
+    }
+
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();

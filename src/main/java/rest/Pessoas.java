@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.POST;
@@ -18,11 +17,12 @@ import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkiverse.renarde.Controller;
 import model.Pessoa;
+import model.PessoaRepository;
 
 public class Pessoas extends Controller {
 
     @Inject
-    EntityManager em;
+    PessoaRepository pessoaRepository;
 
     @CheckedTemplate
     public static class Templates {
@@ -32,10 +32,7 @@ public class Pessoas extends Controller {
     }
 
     public TemplateInstance lista() {
-        List<Pessoa> pessoas = em.createQuery(
-                "FROM Pessoa p WHERE p.deletedAt IS NULL ORDER BY p.nomeCompleto", Pessoa.class)
-                .getResultList();
-        return Templates.lista(pessoas);
+        return Templates.lista(pessoaRepository.listarAtivas());
     }
 
     public TemplateInstance nova() {
@@ -75,16 +72,16 @@ public class Pessoas extends Controller {
             nova();
         }
         Pessoa p = new Pessoa();
-        preencher(p, nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
+        p.aplicar(nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
                 religiao, nacionalidade, naturalidade, tipoSanguineo, estadoCivil,
                 possuiDependentes, pcd, tipoDeficiencia, escolaridade, instituicaoEscolar,
                 dataConclusaoEscolar, email, logradouro, numero, complemento, bairro, cidade, uf, cep);
-        em.persist(p);
+        pessoaRepository.salvar(p);
         lista();
     }
 
     public TemplateInstance editar(@RestPath UUID id) {
-        Pessoa p = em.find(Pessoa.class, id);
+        Pessoa p = pessoaRepository.buscarPorId(id);
         notFoundIfNull(p);
         return Templates.editar(p);
     }
@@ -119,12 +116,12 @@ public class Pessoas extends Controller {
             @RestForm String cidade,
             @RestForm String uf,
             @RestForm String cep) {
-        Pessoa p = em.find(Pessoa.class, id);
+        Pessoa p = pessoaRepository.buscarPorId(id);
         notFoundIfNull(p);
         if (validationFailed()) {
             editar(id);
         }
-        preencher(p, nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
+        p.aplicar(nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
                 religiao, nacionalidade, naturalidade, tipoSanguineo, estadoCivil,
                 possuiDependentes, pcd, tipoDeficiencia, escolaridade, instituicaoEscolar,
                 dataConclusaoEscolar, email, logradouro, numero, complemento, bairro, cidade, uf, cep);
@@ -134,44 +131,9 @@ public class Pessoas extends Controller {
     @POST
     @Transactional
     public void excluir(@RestPath UUID id) {
-        Pessoa p = em.find(Pessoa.class, id);
+        Pessoa p = pessoaRepository.buscarPorId(id);
         notFoundIfNull(p);
         p.deletedAt = LocalDateTime.now();
         lista();
-    }
-
-    private void preencher(Pessoa p, String nomeCompleto, String nomeSocial, String sexo,
-            LocalDate dataNascimento, String nomeMae, String nomePai, String raca, String religiao,
-            String nacionalidade, String naturalidade, String tipoSanguineo, String estadoCivil,
-            boolean possuiDependentes, boolean pcd, String tipoDeficiencia, String escolaridade,
-            String instituicaoEscolar, LocalDate dataConclusaoEscolar, String email,
-            String logradouro, String numero, String complemento, String bairro, String cidade,
-            String uf, String cep) {
-        p.nomeCompleto = nomeCompleto;
-        p.nomeSocial = nomeSocial;
-        p.sexo = sexo;
-        p.dataNascimento = dataNascimento;
-        p.nomeMae = nomeMae;
-        p.nomePai = nomePai;
-        p.raca = raca;
-        p.religiao = religiao;
-        p.nacionalidade = nacionalidade;
-        p.naturalidade = naturalidade;
-        p.tipoSanguineo = tipoSanguineo;
-        p.estadoCivil = estadoCivil;
-        p.possuiDependentes = possuiDependentes;
-        p.pcd = pcd;
-        p.tipoDeficiencia = tipoDeficiencia;
-        p.escolaridade = escolaridade;
-        p.instituicaoEscolar = instituicaoEscolar;
-        p.dataConclusaoEscolar = dataConclusaoEscolar;
-        p.email = email;
-        p.logradouro = logradouro;
-        p.numero = numero;
-        p.complemento = complemento;
-        p.bairro = bairro;
-        p.cidade = cidade;
-        p.uf = uf;
-        p.cep = cep;
     }
 }
