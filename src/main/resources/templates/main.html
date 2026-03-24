@@ -1,28 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
   <head>
-    <!-- You can pass parameters from your templates to your main template and insert them -->
-    <title>{#insert title/}</title>
-    <style type="text/css">
-    .head {
-      border-bottom: 1px solid black;
-      margin-bottom: 1em;
-    }
-    .head div {
-      display: inline-block;
-      margin: 0.5em;
-    }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{#insert title/} - Intranet MOVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              move: {
+                red: '#8B1A1A',
+                'red-dark': '#6B1212',
+              }
+            }
+          }
+        }
+      }
+    </script>
     {#insert moreStyles /}
     {#insert moreScripts /}
   </head>
-  <body>
-    <div class="head">
-      <div><a href="{uri:Pessoas.lista}">Pessoas</a></div>
-      <div><a href="{uri:Veiculos.lista}">Veículos</a></div>
-      <div><a href="{uri:Locais.lista}">Locais</a></div>
-    </div>
-    <!-- This inserts the body of your templates -->
-    {#insert /}
+  <body class="bg-white text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Top nav -->
+    <nav class="bg-move-red text-white px-6 py-3 flex items-center gap-4 shadow">
+      <a href="{uri:Home.index}" class="flex items-center gap-2 font-bold text-lg tracking-wide hover:opacity-80 transition">
+        <span class="bg-white text-move-red text-xs font-black px-2 py-1 rounded">MOVE</span>
+        Intranet MOVE
+      </a>
+      <div class="ml-auto flex gap-6 text-sm">
+        <a href="{uri:Pessoas.lista}" class="hover:underline">Pessoas</a>
+        <a href="{uri:Veiculos.lista}" class="hover:underline">Veículos</a>
+        <a href="{uri:Locais.lista}" class="hover:underline">Locais</a>
+      </div>
+    </nav>
+
+    <!-- Page content -->
+    <main class="flex-1">
+      {#insert /}
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-500 py-6 border-t border-gray-200">
+      Move Telecom &middot;
+      <a href="https://www.movetelecom.com.br" class="hover:underline">www.movetelecom.com.br</a> &middot;
+      <a href="mailto:contato@movetelecom.com.br" class="hover:underline">contato@movetelecom.com.br</a> &middot;
+      Rua Conselheiro Candido de Oliveira, 461 &middot; 11 4063-5171 &middot; SP
+    </footer>
+
   </body>
 </html>
