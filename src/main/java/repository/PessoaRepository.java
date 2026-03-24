@@ -1,4 +1,4 @@
-package model;
+package repository;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,6 +6,8 @@ import java.util.UUID;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+
+import model.Pessoa;
 
 @ApplicationScoped
 public class PessoaRepository {

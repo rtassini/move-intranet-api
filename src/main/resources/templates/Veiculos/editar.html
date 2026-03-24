@@ -1,0 +1,118 @@
+{#include main.html}
+{#title}Editar Veículo{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error, .field select.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+  .form-row { display: flex; gap: 1em; }
+  .form-row .field { flex: 1; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 900px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:Veiculos.lista}">← Voltar</a>
+    <h1>Editar Veículo</h1>
+  </div>
+
+  {#form uri:Veiculos.atualizar(veiculo.id)}
+
+    <fieldset class="form-section">
+      <legend>Identificação</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Placa *</label>
+          <input name="placa" value="{veiculo.placa}" {#ifError 'placa'}class="error"{/}/>
+          {#ifError 'placa'}<span class="error-msg">{#error 'placa'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>RENAVAM *</label>
+          <input name="renavam" value="{veiculo.renavam}" {#ifError 'renavam'}class="error"{/}/>
+          {#ifError 'renavam'}<span class="error-msg">{#error 'renavam'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>Chassi *</label>
+          <input name="chassi" value="{veiculo.chassi}" {#ifError 'chassi'}class="error"{/}/>
+          {#ifError 'chassi'}<span class="error-msg">{#error 'chassi'/}</span>{/ifError}
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Descrição</label>
+        <input name="descricao" value="{veiculo.descricao}"/>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Características</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Ano Fabricação</label>
+          <input type="number" name="anoFabricacao" value="{veiculo.anoFabricacao}" min="1900" max="2100"/>
+        </div>
+        <div class="field">
+          <label>Ano Modelo</label>
+          <input type="number" name="anoModelo" value="{veiculo.anoModelo}" min="1900" max="2100"/>
+        </div>
+        <div class="field">
+          <label>Cor</label>
+          <input name="cor" value="{veiculo.cor}"/>
+        </div>
+        <div class="field">
+          <label>Combustível</label>
+          <select name="combustivel">
+            <option value="">--</option>
+            <option value="GASOLINA" {#if veiculo.combustivel == 'GASOLINA'}selected{/if}>Gasolina</option>
+            <option value="ETANOL" {#if veiculo.combustivel == 'ETANOL'}selected{/if}>Etanol</option>
+            <option value="FLEX" {#if veiculo.combustivel == 'FLEX'}selected{/if}>Flex</option>
+            <option value="DIESEL" {#if veiculo.combustivel == 'DIESEL'}selected{/if}>Diesel</option>
+            <option value="GNV" {#if veiculo.combustivel == 'GNV'}selected{/if}>GNV</option>
+            <option value="ELETRICO" {#if veiculo.combustivel == 'ELETRICO'}selected{/if}>Elétrico</option>
+            <option value="HIBRIDO" {#if veiculo.combustivel == 'HIBRIDO'}selected{/if}>Híbrido</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Proprietário</legend>
+
+      <div class="form-row">
+        <div class="field" style="flex: 2;">
+          <label>Proprietário</label>
+          <input name="proprietario" value="{veiculo.proprietario}"/>
+        </div>
+        <div class="field">
+          <label>CPF / CNPJ</label>
+          <input name="cpfCnpj" value="{veiculo.cpfCnpj}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Status</legend>
+
+      <div class="field" style="max-width: 200px;">
+        <label>Situação</label>
+        <select name="situacao">
+          <option value="DISPONIVEL" {#if veiculo.situacao == 'DISPONIVEL'}selected{/if}>Disponível</option>
+          <option value="EM_USO" {#if veiculo.situacao == 'EM_USO'}selected{/if}>Em Uso</option>
+          <option value="EM_MANUTENCAO" {#if veiculo.situacao == 'EM_MANUTENCAO'}selected{/if}>Em Manutenção</option>
+          <option value="RESERVADO" {#if veiculo.situacao == 'RESERVADO'}selected{/if}>Reservado</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <button type="submit">Salvar</button>
+
+  {/form}
+</div>
+
+{/include}

@@ -1,0 +1,39 @@
+{#include main.html}
+{#title}Locais{/title}
+
+<div style="padding: 1em;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+    <h1 style="margin: 0;">Locais</h1>
+    <a href="{uri:Locais.novo}">+ Novo Local</a>
+  </div>
+
+  {#if locais.isEmpty}
+    <p>Nenhum local cadastrado.</p>
+  {#else}
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid black;">
+          <th style="text-align: left; padding: 0.5em;">Descrição</th>
+          <th style="text-align: left; padding: 0.5em;">UF</th>
+          <th style="padding: 0.5em;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for local in locais}
+        <tr style="border-bottom: 1px solid #ccc;">
+          <td style="padding: 0.5em;">{local.descricao}</td>
+          <td style="padding: 0.5em;">{local.uf ?: '-'}</td>
+          <td style="padding: 0.5em; white-space: nowrap;">
+            <a href="{uri:Locais.editar(local.id)}">Editar</a>
+            {#form uri:Locais.excluir(local.id)}
+              <button type="submit" onclick="return confirm('Confirmar exclusão de {local.descricao}?')">Excluir</button>
+            {/form}
+          </td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+  {/if}
+</div>
+
+{/include}

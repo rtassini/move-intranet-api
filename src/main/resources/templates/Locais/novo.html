@@ -1,0 +1,45 @@
+{#include main.html}
+{#title}Novo Local{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+  .form-row { display: flex; gap: 1em; }
+  .form-row .field { flex: 1; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 600px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:Locais.lista}">← Voltar</a>
+    <h1>Novo Local</h1>
+  </div>
+
+  {#form uri:Locais.salvar()}
+
+    <fieldset class="form-section">
+      <legend>Dados do Local</legend>
+
+      <div class="field">
+        <label>Descrição *</label>
+        <input name="descricao" {#ifError 'descricao'}class="error"{/}/>
+        {#ifError 'descricao'}<span class="error-msg">{#error 'descricao'/}</span>{/ifError}
+      </div>
+
+      <div class="field" style="max-width: 100px;">
+        <label>UF</label>
+        <input name="uf" maxlength="2"/>
+      </div>
+    </fieldset>
+
+    <button type="submit">Cadastrar</button>
+
+  {/form}
+</div>
+
+{/include}

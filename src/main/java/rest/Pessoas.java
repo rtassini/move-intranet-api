@@ -1,12 +1,10 @@
 package rest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.POST;
 
@@ -17,12 +15,12 @@ import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkiverse.renarde.Controller;
 import model.Pessoa;
-import model.PessoaRepository;
+import service.PessoaService;
 
 public class Pessoas extends Controller {
 
     @Inject
-    PessoaRepository pessoaRepository;
+    PessoaService pessoaService;
 
     @CheckedTemplate
     public static class Templates {
@@ -32,7 +30,7 @@ public class Pessoas extends Controller {
     }
 
     public TemplateInstance lista() {
-        return Templates.lista(pessoaRepository.listarAtivas());
+        return Templates.lista(pessoaService.listarAtivas());
     }
 
     public TemplateInstance nova() {
@@ -40,7 +38,6 @@ public class Pessoas extends Controller {
     }
 
     @POST
-    @Transactional
     public void salvar(
             @RestForm @NotBlank String nomeCompleto,
             @RestForm String nomeSocial,
@@ -71,23 +68,20 @@ public class Pessoas extends Controller {
         if (validationFailed()) {
             nova();
         }
-        Pessoa p = new Pessoa();
-        p.aplicar(nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
+        pessoaService.criar(nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
                 religiao, nacionalidade, naturalidade, tipoSanguineo, estadoCivil,
                 possuiDependentes, pcd, tipoDeficiencia, escolaridade, instituicaoEscolar,
                 dataConclusaoEscolar, email, logradouro, numero, complemento, bairro, cidade, uf, cep);
-        pessoaRepository.salvar(p);
         lista();
     }
 
     public TemplateInstance editar(@RestPath UUID id) {
-        Pessoa p = pessoaRepository.buscarPorId(id);
+        Pessoa p = pessoaService.buscarPorId(id);
         notFoundIfNull(p);
         return Templates.editar(p);
     }
 
     @POST
-    @Transactional
     public void atualizar(
             @RestPath UUID id,
             @RestForm @NotBlank String nomeCompleto,
@@ -116,12 +110,11 @@ public class Pessoas extends Controller {
             @RestForm String cidade,
             @RestForm String uf,
             @RestForm String cep) {
-        Pessoa p = pessoaRepository.buscarPorId(id);
-        notFoundIfNull(p);
+        notFoundIfNull(pessoaService.buscarPorId(id));
         if (validationFailed()) {
             editar(id);
         }
-        p.aplicar(nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
+        pessoaService.atualizar(id, nomeCompleto, nomeSocial, sexo, dataNascimento, nomeMae, nomePai, raca,
                 religiao, nacionalidade, naturalidade, tipoSanguineo, estadoCivil,
                 possuiDependentes, pcd, tipoDeficiencia, escolaridade, instituicaoEscolar,
                 dataConclusaoEscolar, email, logradouro, numero, complemento, bairro, cidade, uf, cep);
@@ -129,11 +122,9 @@ public class Pessoas extends Controller {
     }
 
     @POST
-    @Transactional
     public void excluir(@RestPath UUID id) {
-        Pessoa p = pessoaRepository.buscarPorId(id);
-        notFoundIfNull(p);
-        p.deletedAt = LocalDateTime.now();
+        notFoundIfNull(pessoaService.buscarPorId(id));
+        pessoaService.excluir(id);
         lista();
     }
 }

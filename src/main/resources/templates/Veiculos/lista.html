@@ -1,0 +1,45 @@
+{#include main.html}
+{#title}Veículos{/title}
+
+<div style="padding: 1em;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+    <h1 style="margin: 0;">Veículos</h1>
+    <a href="{uri:Veiculos.novo}">+ Novo Veículo</a>
+  </div>
+
+  {#if veiculos.isEmpty}
+    <p>Nenhum veículo cadastrado.</p>
+  {#else}
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid black;">
+          <th style="text-align: left; padding: 0.5em;">Placa</th>
+          <th style="text-align: left; padding: 0.5em;">Descrição</th>
+          <th style="text-align: left; padding: 0.5em;">Cor</th>
+          <th style="text-align: left; padding: 0.5em;">Combustível</th>
+          <th style="text-align: left; padding: 0.5em;">Situação</th>
+          <th style="padding: 0.5em;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for veiculo in veiculos}
+        <tr style="border-bottom: 1px solid #ccc;">
+          <td style="padding: 0.5em;">{veiculo.placa}</td>
+          <td style="padding: 0.5em;">{veiculo.descricao ?: '-'}</td>
+          <td style="padding: 0.5em;">{veiculo.cor ?: '-'}</td>
+          <td style="padding: 0.5em;">{veiculo.combustivel ?: '-'}</td>
+          <td style="padding: 0.5em;">{veiculo.situacao}</td>
+          <td style="padding: 0.5em; white-space: nowrap;">
+            <a href="{uri:Veiculos.editar(veiculo.id)}">Editar</a>
+            {#form uri:Veiculos.excluir(veiculo.id)}
+              <button type="submit" onclick="return confirm('Confirmar exclusão do veículo {veiculo.placa}?')">Excluir</button>
+            {/form}
+          </td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+  {/if}
+</div>
+
+{/include}
