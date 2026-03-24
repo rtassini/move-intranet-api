@@ -1,0 +1,67 @@
+{#include main.html}
+{#title}Editar Colaborador{/title}
+
+<div class="max-w-2xl mx-auto py-10 px-6">
+  <h1 class="text-2xl font-semibold mb-8">Editar Colaborador</h1>
+
+  {#form uri:Colaboradores.atualizar(colaborador.id)}
+  <div class="space-y-5">
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Pessoa <span class="text-red-500">*</span></label>
+      <select name="pessoaId" required
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-move-red">
+        <option value="">Selecione uma pessoa...</option>
+        {#for p in pessoas}
+          <option value="{p.id}" {#if p.id == colaborador.pessoa.id}selected{/if}>{p.nomeCompleto}</option>
+        {/for}
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Empresa <span class="text-red-500">*</span></label>
+      <select name="empresaId" required
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-move-red">
+        <option value="">Selecione uma empresa...</option>
+        {#for e in empresas}
+          <option value="{e.id}" {#if e.id == colaborador.empresa.id}selected{/if}>{e.razaoSocial}</option>
+        {/for}
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
+      <input type="text" name="cargo" maxlength="50" value="{colaborador.cargo ?: ''}"
+             class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-move-red"
+             placeholder="Ex: Técnico de Campo" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Data de Início <span class="text-red-500">*</span></label>
+      <input type="date" name="dataInicio" required value="{colaborador.dataInicio}"
+             class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-move-red" />
+    </div>
+
+    <div class="flex items-center gap-2">
+      <input type="checkbox" name="responsavel" id="responsavel" value="true"
+             {#if colaborador.responsavel}checked{/if}
+             class="h-4 w-4 accent-move-red" />
+      <label for="responsavel" class="text-sm text-gray-700">Responsável pela empresa</label>
+    </div>
+
+  </div>
+
+  <div class="flex gap-3 mt-8">
+    <button type="submit"
+            class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+      Salvar
+    </button>
+    <a href="{uri:Colaboradores.lista}"
+       class="px-6 py-2 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+      Cancelar
+    </a>
+  </div>
+  {/form}
+</div>
+
+{/include}
