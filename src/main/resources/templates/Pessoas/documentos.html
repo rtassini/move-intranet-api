@@ -1,0 +1,150 @@
+{#include main.html}
+{#title}Documentos — {pessoa.nomeCompleto}{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+  .form-row { display: flex; gap: 1em; }
+  .form-row .field { flex: 1; }
+  .steps { display: flex; gap: 1em; margin-bottom: 1.5em; font-size: 0.9em; }
+  .step { padding: 0.3em 0.8em; border-radius: 4px; background: #eee; color: #666; }
+  .step.done { background: #c8e6c9; color: #2e7d32; }
+  .step.active { background: #8B1A1A; color: white; font-weight: bold; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 900px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:Pessoas.lista}">← Voltar para lista</a>
+    <h1>Documentos — {pessoa.nomeCompleto}</h1>
+  </div>
+
+  <div class="steps">
+    <span class="step done">1. Dados Pessoais</span>
+    <span class="step active">2. Documentos</span>
+    <span class="step">3. Telefones</span>
+  </div>
+
+  {#form uri:Pessoas.salvarDocumentos(pessoa.id)}
+
+    <fieldset class="form-section">
+      <legend>Identificação</legend>
+      <div class="form-row">
+        <div class="field">
+          <label>CPF *</label>
+          <input name="cpf" maxlength="14" value="{doc.cpf ?: ''}" {#ifError 'cpf'}class="error"{/}/>
+          {#ifError 'cpf'}<span class="error-msg">{#error 'cpf'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>RG</label>
+          <input name="rg" maxlength="20" value="{doc.rg ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Data Expedição RG</label>
+          <input type="date" name="dataExpedicaoRg" value="{doc.dataExpedicaoRg ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Órgão Emissor RG</label>
+          <input name="orgaoEmissorRg" maxlength="10" value="{doc.orgaoEmissorRg ?: ''}"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>PIS/PASEP</label>
+          <input name="pisPasep" maxlength="20" value="{doc.pisPasep ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>NIS</label>
+          <input name="nis" maxlength="20" value="{doc.nis ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>CNS</label>
+          <input name="cns" maxlength="20" value="{doc.cns ?: ''}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Título de Eleitor</legend>
+      <div class="form-row">
+        <div class="field">
+          <label>Número</label>
+          <input name="tituloEleitor" maxlength="20" value="{doc.tituloEleitor ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Zona</label>
+          <input name="tituloEleitorZona" maxlength="10" value="{doc.tituloEleitorZona ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Seção</label>
+          <input name="tituloEleitorSecao" maxlength="10" value="{doc.tituloEleitorSecao ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Reservista</label>
+          <input name="reservista" maxlength="20" value="{doc.reservista ?: ''}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>CTPS</legend>
+      <div class="form-row">
+        <div class="field">
+          <label>Número CTPS</label>
+          <input name="numeroCtps" maxlength="20" value="{doc.numeroCtps ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Série</label>
+          <input name="serieCtps" maxlength="10" value="{doc.serieCtps ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Data Expedição</label>
+          <input type="date" name="dataExpedicaoCtps" value="{doc.dataExpedicaoCtps ?: ''}"/>
+        </div>
+        <div class="field" style="flex: 0.5;">
+          <label>UF</label>
+          <input name="ufCtps" maxlength="2" value="{doc.ufCtps ?: ''}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>CNH</legend>
+      <div class="form-row">
+        <div class="field">
+          <label>Número CNH</label>
+          <input name="numeroCnh" maxlength="20" value="{doc.numeroCnh ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Categoria</label>
+          <select name="categoriaCnh">
+            <option value="">--</option>
+            <option value="A" {#if doc.categoriaCnh == 'A'}selected{/if}>A</option>
+            <option value="B" {#if doc.categoriaCnh == 'B'}selected{/if}>B</option>
+            <option value="AB" {#if doc.categoriaCnh == 'AB'}selected{/if}>AB</option>
+            <option value="C" {#if doc.categoriaCnh == 'C'}selected{/if}>C</option>
+            <option value="D" {#if doc.categoriaCnh == 'D'}selected{/if}>D</option>
+            <option value="E" {#if doc.categoriaCnh == 'E'}selected{/if}>E</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Validade</label>
+          <input type="date" name="validadeCnh" value="{doc.validadeCnh ?: ''}"/>
+        </div>
+      </div>
+    </fieldset>
+
+    <div style="display: flex; gap: 1em; align-items: center;">
+      <button type="submit">Salvar e Continuar</button>
+      <a href="{uri:Pessoas.telefones(pessoa.id)}">Pular esta etapa →</a>
+    </div>
+
+  {/form}
+</div>
+
+{/include}

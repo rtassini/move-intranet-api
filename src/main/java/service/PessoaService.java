@@ -27,7 +27,7 @@ public class PessoaService {
     }
 
     @Transactional
-    public void criar(String nomeCompleto, String nomeSocial, String sexo,
+    public UUID criar(String nomeCompleto, String nomeSocial, String sexo,
             LocalDate dataNascimento, String nomeMae, String nomePai, String raca, String religiao,
             String nacionalidade, String naturalidade, String tipoSanguineo, String estadoCivil,
             boolean possuiDependentes, boolean pcd, String tipoDeficiencia, String escolaridade,
@@ -40,6 +40,7 @@ public class PessoaService {
                 possuiDependentes, pcd, tipoDeficiencia, escolaridade, instituicaoEscolar,
                 dataConclusaoEscolar, email, logradouro, numero, complemento, bairro, cidade, uf, cep);
         pessoaRepository.salvar(p);
+        return p.id;
     }
 
     @Transactional
