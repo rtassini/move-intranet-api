@@ -1,32 +1,17 @@
 {#include main.html}
 {#title}Editar Documentos — {pessoa.nomeCompleto}{/title}
-{#moreStyles}
-<style>
-  .form-section { margin-bottom: 1.5em; }
-  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
-  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
-  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
-  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
-  .field input.error { border-color: red; }
-  .error-msg { color: red; font-size: 0.85em; }
-  .form-row { display: flex; gap: 1em; }
-  .form-row .field { flex: 1; }
-  .nav-tabs { display: flex; gap: 0.5em; margin-bottom: 1.5em; border-bottom: 2px solid #8B1A1A; }
-  .nav-tab { padding: 0.4em 1em; text-decoration: none; color: #333; border-radius: 4px 4px 0 0; background: #f0f0f0; }
-  .nav-tab.active { background: #8B1A1A; color: white; }
-</style>
-{/moreStyles}
 
-<div style="padding: 1em; max-width: 900px;">
-  <div style="margin-bottom: 1em;">
-    <a href="{uri:Pessoas.lista}">← Voltar para lista</a>
-    <h1>Editar — {pessoa.nomeCompleto}</h1>
+<div class="max-w-4xl mx-auto py-8 px-6">
+  <div class="mb-4">
+    <a href="{uri:Pessoas.lista}" class="text-sm text-gray-500 hover:underline">← Voltar para lista</a>
+    <h1 class="text-2xl font-semibold mt-1">Editar — {pessoa.nomeCompleto}</h1>
   </div>
 
   <div class="nav-tabs">
     <a class="nav-tab" href="{uri:Pessoas.editar(pessoa.id)}">Dados Pessoais</a>
     <a class="nav-tab active" href="{uri:Pessoas.editarDocumentos(pessoa.id)}">Documentos</a>
     <a class="nav-tab" href="{uri:Pessoas.editarTelefones(pessoa.id)}">Telefones</a>
+    <a class="nav-tab" href="{uri:Pessoas.editarContatosEmergencia(pessoa.id)}">Contatos de Emergência</a>
   </div>
 
   {#form uri:Pessoas.atualizarDocumentos(pessoa.id)}
@@ -138,7 +123,16 @@
       </div>
     </fieldset>
 
-    <button type="submit">Salvar Documentos</button>
+    <div class="flex gap-3 mt-6">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Salvar Documentos
+      </button>
+      <a href="{uri:Pessoas.lista}"
+         class="px-6 py-2 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+        Cancelar
+      </a>
+    </div>
 
   {/form}
 </div>

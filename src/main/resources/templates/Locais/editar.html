@@ -1,21 +1,10 @@
 {#include main.html}
 {#title}Editar Local{/title}
-{#moreStyles}
-<style>
-  .form-section { margin-bottom: 1.5em; }
-  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
-  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
-  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
-  .field input { padding: 0.4em; border: 1px solid #ccc; }
-  .field input.error { border-color: red; }
-  .error-msg { color: red; font-size: 0.85em; }
-</style>
-{/moreStyles}
 
-<div style="padding: 1em; max-width: 600px;">
-  <div style="margin-bottom: 1em;">
-    <a href="{uri:Locais.lista}">← Voltar</a>
-    <h1>Editar Local</h1>
+<div class="max-w-xl mx-auto py-8 px-6">
+  <div class="mb-6">
+    <a href="{uri:Locais.lista}" class="text-sm text-gray-500 hover:underline">← Voltar</a>
+    <h1 class="text-2xl font-semibold mt-1">Editar Local</h1>
   </div>
 
   {#form uri:Locais.atualizar(local.id)}
@@ -35,7 +24,16 @@
       </div>
     </fieldset>
 
-    <button type="submit">Salvar</button>
+    <div class="flex gap-3 mt-6">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Salvar
+      </button>
+      <a href="{uri:Locais.lista}"
+         class="px-6 py-2 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+        Cancelar
+      </a>
+    </div>
 
   {/form}
 </div>

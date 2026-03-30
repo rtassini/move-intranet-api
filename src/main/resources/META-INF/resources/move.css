@@ -1,0 +1,124 @@
+/* ─── Form Fields ─────────────────────────────────── */
+.form-section {
+  margin-bottom: 1.5em;
+}
+
+.form-section legend {
+  font-weight: 600;
+  margin-bottom: 0.5em;
+  font-size: 0.9em;
+  color: #374151;
+}
+
+.field {
+  margin-bottom: 0.75em;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25em;
+  color: #374151;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 0.4em 0.6em;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #1f2937;
+  background: #fff;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #8B1A1A;
+  box-shadow: 0 0 0 2px rgba(139, 26, 26, 0.15);
+}
+
+.field input.error,
+.field select.error {
+  border-color: #ef4444;
+}
+
+.error-msg {
+  color: #ef4444;
+  font-size: 0.8em;
+  margin-top: 0.2em;
+}
+
+.form-row {
+  display: flex;
+  gap: 1em;
+}
+
+.form-row .field {
+  flex: 1;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* ─── Nav Tabs ────────────────────────────────────── */
+.nav-tabs {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1.5em;
+  border-bottom: 2px solid #8B1A1A;
+}
+
+.nav-tab {
+  padding: 0.4em 1em;
+  text-decoration: none;
+  color: #374151;
+  border-radius: 4px 4px 0 0;
+  background: #f3f4f6;
+  font-size: 0.875rem;
+  transition: background 0.15s;
+}
+
+.nav-tab:hover {
+  background: #e5e7eb;
+}
+
+.nav-tab.active {
+  background: #8B1A1A;
+  color: white;
+}
+
+/* ─── Step Indicators ─────────────────────────────── */
+.steps {
+  display: flex;
+  gap: 0.75em;
+  margin-bottom: 1.5em;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.step {
+  padding: 0.3em 0.8em;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.step.done {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.step.active {
+  background: #8B1A1A;
+  color: white;
+  font-weight: 600;
+}

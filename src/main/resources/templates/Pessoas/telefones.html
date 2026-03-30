@@ -1,63 +1,50 @@
 {#include main.html}
 {#title}Telefones — {pessoa.nomeCompleto}{/title}
-{#moreStyles}
-<style>
-  .form-section { margin-bottom: 1.5em; }
-  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
-  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
-  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
-  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
-  .field input.error { border-color: red; }
-  .error-msg { color: red; font-size: 0.85em; }
-  .form-row { display: flex; gap: 1em; }
-  .form-row .field { flex: 1; }
-  .steps { display: flex; gap: 1em; margin-bottom: 1.5em; font-size: 0.9em; }
-  .step { padding: 0.3em 0.8em; border-radius: 4px; background: #eee; color: #666; }
-  .step.done { background: #c8e6c9; color: #2e7d32; }
-  .step.active { background: #8B1A1A; color: white; font-weight: bold; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
-  th, td { text-align: left; padding: 0.5em; border-bottom: 1px solid #ccc; }
-  thead tr { border-bottom: 2px solid #333; }
-</style>
-{/moreStyles}
 
-<div style="padding: 1em; max-width: 700px;">
-  <div style="margin-bottom: 1em;">
-    <a href="{uri:Pessoas.lista}">← Voltar para lista</a>
-    <h1>Telefones — {pessoa.nomeCompleto}</h1>
+<div class="max-w-3xl mx-auto py-8 px-6">
+  <div class="mb-4">
+    <a href="{uri:Pessoas.lista}" class="text-sm text-gray-500 hover:underline">← Voltar para lista</a>
+    <h1 class="text-2xl font-semibold mt-1">Telefones — {pessoa.nomeCompleto}</h1>
   </div>
 
   <div class="steps">
     <span class="step done">1. Dados Pessoais</span>
     <span class="step done">2. Documentos</span>
     <span class="step active">3. Telefones</span>
+    <span class="step">4. Contatos de Emergência</span>
   </div>
 
   {#if telefones.isEmpty}
-    <p style="color: #666;">Nenhum telefone cadastrado ainda.</p>
+    <p class="text-gray-500 text-sm mb-4">Nenhum telefone cadastrado ainda.</p>
   {#else}
-    <table>
-      <thead>
-        <tr>
-          <th>Número</th>
-          <th>Tipo</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#for tel in telefones}
-        <tr>
-          <td>{tel.numero}</td>
-          <td>{tel.tipo ?: '-'}</td>
-          <td>
-            {#form uri:Pessoas.excluirTelefone(pessoa.id, tel.id)}
-              <button type="submit" onclick="return confirm('Remover este telefone?')">Remover</button>
-            {/form}
-          </td>
-        </tr>
-        {/for}
-      </tbody>
-    </table>
+    <div class="overflow-x-auto rounded border border-gray-200 mb-6">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Número</th>
+            <th class="text-left px-4 py-3 font-medium text-gray-600">Tipo</th>
+            <th class="px-4 py-3 font-medium text-gray-600">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#for tel in telefones}
+          <tr class="border-b border-gray-100 hover:bg-gray-50">
+            <td class="px-4 py-3">{tel.numero}</td>
+            <td class="px-4 py-3">{tel.tipo ?: '-'}</td>
+            <td class="px-4 py-3 flex justify-center">
+              {#form uri:Pessoas.excluirTelefone(pessoa.id, tel.id)}
+                <button type="submit"
+                        onclick="return confirm('Remover este telefone?')"
+                        class="text-red-600 hover:underline text-sm">
+                  Remover
+                </button>
+              {/form}
+            </td>
+          </tr>
+          {/for}
+        </tbody>
+      </table>
+    </div>
   {/if}
 
   <fieldset class="form-section">
@@ -80,12 +67,20 @@
           </select>
         </div>
       </div>
-      <button type="submit">Adicionar</button>
+      <button type="submit"
+              class="bg-move-red text-white px-5 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Adicionar
+      </button>
     {/form}
   </fieldset>
 
   {#form uri:Pessoas.concluirTelefones(pessoa.id)}
-    <button type="submit" style="background: #8B1A1A; color: white; padding: 0.5em 1.5em; border: none; cursor: pointer;">Concluir Cadastro</button>
+    <div class="mt-4">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Continuar: Contatos de Emergência →
+      </button>
+    </div>
   {/form}
 </div>
 

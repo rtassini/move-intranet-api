@@ -1,33 +1,17 @@
 {#include main.html}
 {#title}Documentos — {pessoa.nomeCompleto}{/title}
-{#moreStyles}
-<style>
-  .form-section { margin-bottom: 1.5em; }
-  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
-  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
-  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
-  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
-  .field input.error { border-color: red; }
-  .error-msg { color: red; font-size: 0.85em; }
-  .form-row { display: flex; gap: 1em; }
-  .form-row .field { flex: 1; }
-  .steps { display: flex; gap: 1em; margin-bottom: 1.5em; font-size: 0.9em; }
-  .step { padding: 0.3em 0.8em; border-radius: 4px; background: #eee; color: #666; }
-  .step.done { background: #c8e6c9; color: #2e7d32; }
-  .step.active { background: #8B1A1A; color: white; font-weight: bold; }
-</style>
-{/moreStyles}
 
-<div style="padding: 1em; max-width: 900px;">
-  <div style="margin-bottom: 1em;">
-    <a href="{uri:Pessoas.lista}">← Voltar para lista</a>
-    <h1>Documentos — {pessoa.nomeCompleto}</h1>
+<div class="max-w-4xl mx-auto py-8 px-6">
+  <div class="mb-4">
+    <a href="{uri:Pessoas.lista}" class="text-sm text-gray-500 hover:underline">← Voltar para lista</a>
+    <h1 class="text-2xl font-semibold mt-1">Documentos — {pessoa.nomeCompleto}</h1>
   </div>
 
   <div class="steps">
     <span class="step done">1. Dados Pessoais</span>
     <span class="step active">2. Documentos</span>
     <span class="step">3. Telefones</span>
+    <span class="step">4. Contatos de Emergência</span>
   </div>
 
   {#form uri:Pessoas.salvarDocumentos(pessoa.id)}
@@ -139,9 +123,14 @@
       </div>
     </fieldset>
 
-    <div style="display: flex; gap: 1em; align-items: center;">
-      <button type="submit">Salvar e Continuar</button>
-      <a href="{uri:Pessoas.telefones(pessoa.id)}">Pular esta etapa →</a>
+    <div class="flex gap-3 mt-6 items-center">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Salvar e Continuar
+      </button>
+      <a href="{uri:Pessoas.telefones(pessoa.id)}" class="text-sm text-gray-500 hover:underline">
+        Pular esta etapa →
+      </a>
     </div>
 
   {/form}
