@@ -1,0 +1,61 @@
+{#include main.html}
+{#title}Editar Regra de Rodízio{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error, .field select.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 600px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:VeiculoRodizios.lista}">← Voltar</a>
+    <h1>Editar Regra de Rodízio</h1>
+  </div>
+
+  {#form uri:VeiculoRodizios.atualizar(rodizio.id)}
+
+    <fieldset class="form-section">
+      <legend>Dados do Rodízio</legend>
+
+      <div class="field" style="max-width: 150px;">
+        <label>Final da Placa (0–9) *</label>
+        <select name="finalPlaca" {#ifError 'finalPlaca'}class="error"{/}>
+          <option value="0" {#if rodizio.finalPlaca == 0}selected{/if}>0</option>
+          <option value="1" {#if rodizio.finalPlaca == 1}selected{/if}>1</option>
+          <option value="2" {#if rodizio.finalPlaca == 2}selected{/if}>2</option>
+          <option value="3" {#if rodizio.finalPlaca == 3}selected{/if}>3</option>
+          <option value="4" {#if rodizio.finalPlaca == 4}selected{/if}>4</option>
+          <option value="5" {#if rodizio.finalPlaca == 5}selected{/if}>5</option>
+          <option value="6" {#if rodizio.finalPlaca == 6}selected{/if}>6</option>
+          <option value="7" {#if rodizio.finalPlaca == 7}selected{/if}>7</option>
+          <option value="8" {#if rodizio.finalPlaca == 8}selected{/if}>8</option>
+          <option value="9" {#if rodizio.finalPlaca == 9}selected{/if}>9</option>
+        </select>
+        {#ifError 'finalPlaca'}<span class="error-msg">{#error 'finalPlaca'/}</span>{/ifError}
+      </div>
+
+      <div class="field">
+        <label>Dia do Rodízio *</label>
+        <select name="descricao" {#ifError 'descricao'}class="error"{/}>
+          <option value="SEGUNDA-FEIRA" {#if rodizio.descricao == 'SEGUNDA-FEIRA'}selected{/if}>Segunda-feira</option>
+          <option value="TERÇA-FEIRA" {#if rodizio.descricao == 'TERÇA-FEIRA'}selected{/if}>Terça-feira</option>
+          <option value="QUARTA-FEIRA" {#if rodizio.descricao == 'QUARTA-FEIRA'}selected{/if}>Quarta-feira</option>
+          <option value="QUINTA-FEIRA" {#if rodizio.descricao == 'QUINTA-FEIRA'}selected{/if}>Quinta-feira</option>
+          <option value="SEXTA-FEIRA" {#if rodizio.descricao == 'SEXTA-FEIRA'}selected{/if}>Sexta-feira</option>
+        </select>
+        {#ifError 'descricao'}<span class="error-msg">{#error 'descricao'/}</span>{/ifError}
+      </div>
+    </fieldset>
+
+    <button type="submit">Salvar</button>
+
+  {/form}
+</div>
+
+{/include}

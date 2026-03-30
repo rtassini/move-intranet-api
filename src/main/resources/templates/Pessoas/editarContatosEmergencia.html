@@ -1,0 +1,89 @@
+{#include main.html}
+{#title}Contatos de Emergência — {pessoa.nomeCompleto}{/title}
+{#moreStyles}
+<style>
+  .form-section { margin-bottom: 1.5em; }
+  .form-section legend { font-weight: bold; margin-bottom: 0.5em; }
+  .field { margin-bottom: 0.75em; display: flex; flex-direction: column; }
+  .field label { font-size: 0.9em; margin-bottom: 0.2em; }
+  .field input, .field select { padding: 0.4em; border: 1px solid #ccc; }
+  .field input.error { border-color: red; }
+  .error-msg { color: red; font-size: 0.85em; }
+  .form-row { display: flex; gap: 1em; }
+  .form-row .field { flex: 1; }
+  .nav-tabs { display: flex; gap: 0.5em; margin-bottom: 1.5em; border-bottom: 2px solid #8B1A1A; }
+  .nav-tab { padding: 0.4em 1em; text-decoration: none; color: #333; border-radius: 4px 4px 0 0; background: #f0f0f0; }
+  .nav-tab.active { background: #8B1A1A; color: white; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
+  th, td { text-align: left; padding: 0.5em; border-bottom: 1px solid #ccc; }
+  thead tr { border-bottom: 2px solid #333; }
+</style>
+{/moreStyles}
+
+<div style="padding: 1em; max-width: 700px;">
+  <div style="margin-bottom: 1em;">
+    <a href="{uri:Pessoas.lista}">← Voltar para lista</a>
+    <h1>Editar — {pessoa.nomeCompleto}</h1>
+  </div>
+
+  <div class="nav-tabs">
+    <a class="nav-tab" href="{uri:Pessoas.editar(pessoa.id)}">Dados Pessoais</a>
+    <a class="nav-tab" href="{uri:Pessoas.editarDocumentos(pessoa.id)}">Documentos</a>
+    <a class="nav-tab" href="{uri:Pessoas.editarTelefones(pessoa.id)}">Telefones</a>
+    <a class="nav-tab active" href="{uri:Pessoas.editarContatosEmergencia(pessoa.id)}">Contatos de Emergência</a>
+  </div>
+
+  {#if contatos.isEmpty}
+    <p style="color: #666;">Nenhum contato de emergência cadastrado.</p>
+  {#else}
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Parentesco</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for contato in contatos}
+        <tr>
+          <td>{contato.nome}</td>
+          <td>{contato.parentesco ?: '-'}</td>
+          <td>{contato.telefone}</td>
+          <td>
+            {#form uri:Pessoas.excluirContatoEmergenciaEdicao(pessoa.id, contato.id)}
+              <button type="submit" onclick="return confirm('Remover este contato?')">Remover</button>
+            {/form}
+          </td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+  {/if}
+
+  <fieldset class="form-section">
+    <legend>Adicionar Contato de Emergência</legend>
+    {#form uri:Pessoas.adicionarContatoEmergenciaEdicao(pessoa.id)}
+      <div class="field">
+        <label>Nome *</label>
+        <input name="nome" maxlength="200" {#ifError 'nome'}class="error"{/}/>
+        {#ifError 'nome'}<span class="error-msg">{#error 'nome'/}</span>{/ifError}
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Parentesco</label>
+          <input name="parentesco" maxlength="30"/>
+        </div>
+        <div class="field">
+          <label>Telefone *</label>
+          <input name="telefone" maxlength="20" {#ifError 'telefone'}class="error"{/}/>
+          {#ifError 'telefone'}<span class="error-msg">{#error 'telefone'/}</span>{/ifError}
+        </div>
+      </div>
+      <button type="submit">Adicionar</button>
+    {/form}
+  </fieldset>
+</div>
+
+{/include}

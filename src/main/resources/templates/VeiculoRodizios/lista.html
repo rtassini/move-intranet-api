@@ -1,0 +1,39 @@
+{#include main.html}
+{#title}Rodízio de Veículos{/title}
+
+<div style="padding: 1em;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+    <h1 style="margin: 0;">Rodízio de Veículos</h1>
+    <a href="{uri:VeiculoRodizios.novo}">+ Nova Regra</a>
+  </div>
+
+  {#if rodizios.isEmpty}
+    <p>Nenhuma regra de rodízio cadastrada.</p>
+  {#else}
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid black;">
+          <th style="text-align: left; padding: 0.5em;">Final da Placa</th>
+          <th style="text-align: left; padding: 0.5em;">Dia do Rodízio</th>
+          <th style="padding: 0.5em;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#for rodizio in rodizios}
+        <tr style="border-bottom: 1px solid #ccc;">
+          <td style="padding: 0.5em;">{rodizio.finalPlaca}</td>
+          <td style="padding: 0.5em;">{rodizio.descricao}</td>
+          <td style="padding: 0.5em; white-space: nowrap;">
+            <a href="{uri:VeiculoRodizios.editar(rodizio.id)}">Editar</a>
+            {#form uri:VeiculoRodizios.excluir(rodizio.id)}
+              <button type="submit" onclick="return confirm('Confirmar exclusão da regra para final {rodizio.finalPlaca}?')">Excluir</button>
+            {/form}
+          </td>
+        </tr>
+        {/for}
+      </tbody>
+    </table>
+  {/if}
+</div>
+
+{/include}

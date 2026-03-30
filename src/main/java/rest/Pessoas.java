@@ -14,9 +14,11 @@ import org.jboss.resteasy.reactive.RestPath;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkiverse.renarde.Controller;
+import model.ContatoEmergencia;
 import model.Pessoa;
 import model.PessoaDocumento;
 import model.Telefone;
+import service.ContatoEmergenciaService;
 import service.PessoaDocumentoService;
 import service.PessoaService;
 import service.TelefoneService;
@@ -32,6 +34,9 @@ public class Pessoas extends Controller {
     @Inject
     TelefoneService telefoneService;
 
+    @Inject
+    ContatoEmergenciaService contatoEmergenciaService;
+
     @CheckedTemplate
     public static class Templates {
         public static native TemplateInstance lista(List<Pessoa> pessoas);
@@ -39,8 +44,10 @@ public class Pessoas extends Controller {
         public static native TemplateInstance editar(Pessoa pessoa);
         public static native TemplateInstance documentos(Pessoa pessoa, PessoaDocumento doc);
         public static native TemplateInstance telefones(Pessoa pessoa, List<Telefone> telefones);
+        public static native TemplateInstance contatosEmergencia(Pessoa pessoa, List<ContatoEmergencia> contatos);
         public static native TemplateInstance editarDocumentos(Pessoa pessoa, PessoaDocumento doc);
         public static native TemplateInstance editarTelefones(Pessoa pessoa, List<Telefone> telefones);
+        public static native TemplateInstance editarContatosEmergencia(Pessoa pessoa, List<ContatoEmergencia> contatos);
     }
 
     public TemplateInstance lista() {
@@ -157,6 +164,38 @@ public class Pessoas extends Controller {
 
     @POST
     public void concluirTelefones(@RestPath UUID pessoaId) {
+        contatosEmergencia(pessoaId);
+    }
+
+    public TemplateInstance contatosEmergencia(@RestPath UUID pessoaId) {
+        Pessoa pessoa = pessoaService.buscarPorId(pessoaId);
+        notFoundIfNull(pessoa);
+        return Templates.contatosEmergencia(pessoa, contatoEmergenciaService.listarPorPessoa(pessoaId));
+    }
+
+    @POST
+    public void adicionarContatoEmergencia(
+            @RestPath UUID pessoaId,
+            @RestForm @NotBlank String nome,
+            @RestForm String parentesco,
+            @RestForm @NotBlank String telefone) {
+        notFoundIfNull(pessoaService.buscarPorId(pessoaId));
+        if (validationFailed()) {
+            contatosEmergencia(pessoaId);
+        }
+        contatoEmergenciaService.adicionar(pessoaId, nome, parentesco, telefone);
+        contatosEmergencia(pessoaId);
+    }
+
+    @POST
+    public void excluirContatoEmergencia(@RestPath UUID pessoaId, @RestPath UUID contatoId) {
+        notFoundIfNull(pessoaService.buscarPorId(pessoaId));
+        contatoEmergenciaService.excluir(contatoId);
+        contatosEmergencia(pessoaId);
+    }
+
+    @POST
+    public void concluirContatosEmergencia(@RestPath UUID pessoaId) {
         lista();
     }
 
@@ -270,6 +309,33 @@ public class Pessoas extends Controller {
         notFoundIfNull(pessoaService.buscarPorId(id));
         telefoneService.excluir(telefoneId);
         editarTelefones(id);
+    }
+
+    public TemplateInstance editarContatosEmergencia(@RestPath UUID id) {
+        Pessoa pessoa = pessoaService.buscarPorId(id);
+        notFoundIfNull(pessoa);
+        return Templates.editarContatosEmergencia(pessoa, contatoEmergenciaService.listarPorPessoa(id));
+    }
+
+    @POST
+    public void adicionarContatoEmergenciaEdicao(
+            @RestPath UUID id,
+            @RestForm @NotBlank String nome,
+            @RestForm String parentesco,
+            @RestForm @NotBlank String telefone) {
+        notFoundIfNull(pessoaService.buscarPorId(id));
+        if (validationFailed()) {
+            editarContatosEmergencia(id);
+        }
+        contatoEmergenciaService.adicionar(id, nome, parentesco, telefone);
+        editarContatosEmergencia(id);
+    }
+
+    @POST
+    public void excluirContatoEmergenciaEdicao(@RestPath UUID id, @RestPath UUID contatoId) {
+        notFoundIfNull(pessoaService.buscarPorId(id));
+        contatoEmergenciaService.excluir(contatoId);
+        editarContatosEmergencia(id);
     }
 
     @POST
