@@ -226,6 +226,7 @@ CREATE TABLE veiculos (
                           cpf_cnpj        VARCHAR(18),
                           situacao        VARCHAR(20) NOT NULL DEFAULT 'DISPONIVEL',
                           status          BOOLEAN     NOT NULL DEFAULT TRUE,
+                          empresa_id      UUID        NOT NULL,
                           rodizio_id      UUID,
                           created_at      TIMESTAMP   NOT NULL DEFAULT NOW(),
                           updated_at      TIMESTAMP   NOT NULL DEFAULT NOW(),
@@ -235,6 +236,8 @@ CREATE TABLE veiculos (
                           CONSTRAINT uq_veiculos_placa        UNIQUE (placa),
                           CONSTRAINT uq_veiculos_renavam      UNIQUE (renavam),
                           CONSTRAINT uq_veiculos_chassi       UNIQUE (chassi),
+                          CONSTRAINT fk_veiculos_empresa      FOREIGN KEY (empresa_id)
+                              REFERENCES empresas (id),
                           CONSTRAINT fk_veiculos_rodizio      FOREIGN KEY (rodizio_id)
                               REFERENCES veiculo_rodizio (id),
                           CONSTRAINT ck_veiculos_situacao     CHECK (situacao IN ('DISPONIVEL', 'EM_USO', 'EM_MANUTENCAO', 'RESERVADO'))
@@ -304,6 +307,7 @@ CREATE INDEX idx_empresas_deleted_at        ON empresas       (deleted_at) WHERE
 CREATE INDEX idx_pessoas_deleted_at         ON pessoas        (deleted_at) WHERE deleted_at IS NULL;
 CREATE INDEX idx_colaboradores_deleted_at   ON colaboradores  (deleted_at) WHERE deleted_at IS NULL;
 CREATE INDEX idx_veiculos_deleted_at        ON veiculos       (deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX idx_veiculos_empresa_id        ON veiculos       (empresa_id);
 
 -- Lookups frequentes
 CREATE INDEX idx_colaboradores_pessoa_id    ON colaboradores  (pessoa_id);

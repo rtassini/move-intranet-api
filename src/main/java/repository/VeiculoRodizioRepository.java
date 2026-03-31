@@ -25,6 +25,15 @@ public class VeiculoRodizioRepository {
         return em.find(VeiculoRodizio.class, id);
     }
 
+    public VeiculoRodizio buscarPorFinalPlaca(short finalPlaca) {
+        return em.createQuery(
+                "FROM VeiculoRodizio r WHERE r.finalPlaca = :fp AND r.status = TRUE", VeiculoRodizio.class)
+                .setParameter("fp", finalPlaca)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public void salvar(VeiculoRodizio rodizio) {
         em.persist(rodizio);
     }

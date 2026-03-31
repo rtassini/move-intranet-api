@@ -17,7 +17,14 @@ public class VeiculoRepository {
 
     public List<Veiculo> listarAtivos() {
         return em.createQuery(
-                "FROM Veiculo v WHERE v.deletedAt IS NULL ORDER BY v.placa", Veiculo.class)
+                "FROM Veiculo v JOIN FETCH v.empresa WHERE v.deletedAt IS NULL ORDER BY v.placa", Veiculo.class)
+                .getResultList();
+    }
+
+    public List<Veiculo> listarDisponiveis() {
+        return em.createQuery(
+                "FROM Veiculo v JOIN FETCH v.empresa " +
+                "WHERE v.deletedAt IS NULL AND v.situacao = 'DISPONIVEL' ORDER BY v.placa", Veiculo.class)
                 .getResultList();
     }
 

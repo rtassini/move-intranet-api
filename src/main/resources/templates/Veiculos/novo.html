@@ -10,6 +10,21 @@
   {#form uri:Veiculos.salvar()}
 
     <fieldset class="form-section">
+      <legend>Empresa</legend>
+
+      <div class="field">
+        <label>Empresa *</label>
+        <select name="empresaId" {#ifError 'empresaId'}class="error"{/}>
+          <option value="">-- Selecione --</option>
+          {#for e in empresas}
+          <option value="{e.id}">{e.razaoSocial}</option>
+          {/for}
+        </select>
+        {#ifError 'empresaId'}<span class="error-msg">{#error 'empresaId'/}</span>{/ifError}
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
       <legend>Identificação</legend>
 
       <div class="form-row">

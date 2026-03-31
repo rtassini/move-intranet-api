@@ -10,6 +10,21 @@
   {#form uri:Veiculos.atualizar(veiculo.id)}
 
     <fieldset class="form-section">
+      <legend>Empresa</legend>
+
+      <div class="field">
+        <label>Empresa *</label>
+        <select name="empresaId" {#ifError 'empresaId'}class="error"{/}>
+          <option value="">-- Selecione --</option>
+          {#for e in empresas}
+          <option value="{e.id}" {#if veiculo.empresa.id == e.id}selected{/if}>{e.razaoSocial}</option>
+          {/for}
+        </select>
+        {#ifError 'empresaId'}<span class="error-msg">{#error 'empresaId'/}</span>{/ifError}
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
       <legend>Identificação</legend>
 
       <div class="form-row">
@@ -95,6 +110,13 @@
           <option value="RESERVADO" {#if veiculo.situacao == 'RESERVADO'}selected{/if}>Reservado</option>
         </select>
       </div>
+
+      {#if veiculo.rodizio}
+      <p class="text-xs text-gray-500 mt-2">
+        Rodízio: final <strong>{veiculo.rodizio.finalPlaca}</strong> — <strong>{veiculo.rodizio.descricao}</strong>
+        (derivado automaticamente da placa)
+      </p>
+      {/if}
     </fieldset>
 
     <div class="flex gap-3 mt-6">

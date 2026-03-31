@@ -1,0 +1,111 @@
+{#include main.html}
+{#title}Registrar Uso de Veículo{/title}
+
+<div class="max-w-3xl mx-auto py-8 px-6">
+  <div class="mb-6">
+    <a href="{uri:VeiculoUsos.lista}" class="text-sm text-gray-500 hover:underline">← Voltar</a>
+    <h1 class="text-2xl font-semibold mt-1">Registrar Uso de Veículo</h1>
+  </div>
+
+  {#if inject:flash.get('error')}
+  <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+    {inject:flash.get('error')}
+  </div>
+  {/if}
+
+  <div class="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded mb-6 text-xs">
+    O veículo selecionado deve pertencer à mesma empresa do colaborador. O rodízio é validado automaticamente conforme a data de saída.
+  </div>
+
+  {#form uri:VeiculoUsos.salvar()}
+
+    <fieldset class="form-section">
+      <legend>Colaborador e Veículo</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Colaborador *</label>
+          <select name="colaboradorId" {#ifError 'colaboradorId'}class="error"{/}>
+            <option value="">-- Selecione --</option>
+            {#for c in colaboradores}
+            <option value="{c.id}">{c.pessoa.nomeCompleto} ({c.empresa.razaoSocial})</option>
+            {/for}
+          </select>
+          {#ifError 'colaboradorId'}<span class="error-msg">{#error 'colaboradorId'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>Veículo *</label>
+          <select name="veiculoId" {#ifError 'veiculoId'}class="error"{/}>
+            <option value="">-- Selecione --</option>
+            {#for v in veiculos}
+            <option value="{v.id}">{v.placa} ({v.empresa.razaoSocial})</option>
+            {/for}
+          </select>
+          {#ifError 'veiculoId'}<span class="error-msg">{#error 'veiculoId'/}</span>{/ifError}
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Trajeto</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Origem *</label>
+          <select name="origemId" {#ifError 'origemId'}class="error"{/}>
+            <option value="">-- Selecione --</option>
+            {#for l in locais}
+            <option value="{l.id}">{l.descricao}{#if l.uf} ({l.uf}){/if}</option>
+            {/for}
+          </select>
+          {#ifError 'origemId'}<span class="error-msg">{#error 'origemId'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>Destino *</label>
+          <select name="destinoId" {#ifError 'destinoId'}class="error"{/}>
+            <option value="">-- Selecione --</option>
+            {#for l in locais}
+            <option value="{l.id}">{l.descricao}{#if l.uf} ({l.uf}){/if}</option>
+            {/for}
+          </select>
+          {#ifError 'destinoId'}<span class="error-msg">{#error 'destinoId'/}</span>{/ifError}
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend>Saída</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Data/Hora de Saída *</label>
+          <input type="datetime-local" name="dtSaida" {#ifError 'dtSaida'}class="error"{/}/>
+          {#ifError 'dtSaida'}<span class="error-msg">{#error 'dtSaida'/}</span>{/ifError}
+        </div>
+        <div class="field">
+          <label>KM Inicial</label>
+          <input type="number" name="kmInicial" min="0"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Observações</label>
+        <input name="observacoes"/>
+      </div>
+    </fieldset>
+
+    <div class="flex gap-3 mt-6">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Registrar
+      </button>
+      <a href="{uri:VeiculoUsos.lista}"
+         class="px-6 py-2 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+        Cancelar
+      </a>
+    </div>
+
+  {/form}
+</div>
+
+{/include}

@@ -1,0 +1,95 @@
+{#include main.html}
+{#title}Concluir Uso de Veículo{/title}
+
+<div class="max-w-3xl mx-auto py-8 px-6">
+  <div class="mb-6">
+    <a href="{uri:VeiculoUsos.lista}" class="text-sm text-gray-500 hover:underline">← Voltar</a>
+    <h1 class="text-2xl font-semibold mt-1">Concluir Uso de Veículo</h1>
+  </div>
+
+  {#if inject:flash.get('error')}
+  <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+    {inject:flash.get('error')}
+  </div>
+  {/if}
+
+  <div class="bg-gray-50 border border-gray-200 rounded p-4 mb-6 grid grid-cols-2 gap-3 text-sm">
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Veículo</span>
+      <span class="font-mono font-medium">{uso.veiculo.placa}</span>
+      {#if uso.veiculo.descricao}
+        <span class="text-gray-500"> — {uso.veiculo.descricao}</span>
+      {/if}
+    </div>
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Empresa</span>
+      {uso.veiculo.empresa.razaoSocial}
+    </div>
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Colaborador</span>
+      {uso.colaborador.pessoa.nomeCompleto}
+    </div>
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">KM Inicial</span>
+      {uso.kmInicial ?: '-'}
+    </div>
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Origem</span>
+      {uso.origem.descricao}
+    </div>
+    <div>
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Destino</span>
+      {uso.destino.descricao}
+    </div>
+    <div class="col-span-2">
+      <span class="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">Saída</span>
+      {uso.dtSaida}
+    </div>
+  </div>
+
+  {#form uri:VeiculoUsos.concluir(uso.id)}
+    <fieldset class="form-section">
+      <legend>Encerramento</legend>
+
+      <div class="form-row">
+        <div class="field">
+          <label>KM Final</label>
+          <input type="number" name="kmFinal" min="0"
+                 value="{uso.kmFinal ?: ''}"/>
+        </div>
+        <div class="field">
+          <label>Data/Hora de Chegada</label>
+          <input type="datetime-local" name="dtChegada"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Observações</label>
+        <input name="observacoes" value="{uso.observacoes ?: ''}"/>
+      </div>
+    </fieldset>
+
+    <div class="flex gap-3 mt-6">
+      <button type="submit"
+              class="bg-move-red text-white px-6 py-2 rounded text-sm hover:bg-move-red-dark transition">
+        Concluir Uso
+      </button>
+      <a href="{uri:VeiculoUsos.lista}"
+         class="px-6 py-2 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+        Voltar
+      </a>
+    </div>
+  {/form}
+
+  <div class="mt-6 pt-4 border-t border-gray-100">
+    {#form uri:VeiculoUsos.cancelar(uso.id)}
+      <button type="submit"
+              onclick="return confirm('Confirmar cancelamento deste uso? O veículo voltará a ficar disponível.')"
+              class="text-move-red text-sm hover:underline">
+        Cancelar este uso
+      </button>
+    {/form}
+  </div>
+</div>
+
+{/include}
