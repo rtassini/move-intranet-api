@@ -21,4 +21,4 @@ jobs:
         run: ./mvnw verify   # compile + test + package
 
       - name: Checar vulnerabilidades
-        run: ./mvnw dependency:check -q
+        run: ./mvnw dependency:analyze -q
