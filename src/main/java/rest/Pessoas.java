@@ -302,18 +302,22 @@ public class Pessoas extends Controller {
             @RestForm String numeroCnh,
             @RestForm String categoriaCnh,
             @RestForm LocalDate validadeCnh) {
+        LOG.infof("Atualizando documentos da pessoa: %s", id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         if (validationFailed()) {
+            LOG.debugf("Validação falhou ao atualizar documentos da pessoa: %s", id);
             editarDocumentos(id);
         }
         documentoService.salvar(id, cpf, rg, dataExpedicaoRg, orgaoEmissorRg, pisPasep, nis, cns,
                 tituloEleitor, tituloEleitorZona, tituloEleitorSecao, reservista,
                 numeroCtps, serieCtps, dataExpedicaoCtps, ufCtps,
                 numeroCnh, categoriaCnh, validadeCnh);
+        LOG.infof("Documentos atualizados para pessoa: %s", id);
         lista();
     }
 
     public TemplateInstance editarTelefones(@RestPath UUID id) {
+        LOG.debugf("Exibindo formulário de edição de telefones da pessoa: %s", id);
         Pessoa pessoa = pessoaService.buscarPorId(id);
         notFoundIfNull(pessoa);
         return Templates.editarTelefones(pessoa, telefoneService.listarPorPessoa(id));
@@ -324,22 +328,27 @@ public class Pessoas extends Controller {
             @RestPath UUID id,
             @RestForm @NotBlank String numero,
             @RestForm String tipo) {
+        LOG.infof("Adicionando telefone (edição) para pessoa: %s", id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         if (validationFailed()) {
+            LOG.debugf("Validação falhou ao adicionar telefone (edição) para pessoa: %s", id);
             editarTelefones(id);
         }
         telefoneService.adicionarParaPessoa(id, numero, tipo);
+        LOG.infof("Telefone adicionado (edição) para pessoa: %s", id);
         editarTelefones(id);
     }
 
     @POST
     public void excluirTelefoneEdicao(@RestPath UUID id, @RestPath UUID telefoneId) {
+        LOG.infof("Excluindo telefone %s da pessoa (edição): %s", telefoneId, id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         telefoneService.excluir(telefoneId);
         editarTelefones(id);
     }
 
     public TemplateInstance editarContatosEmergencia(@RestPath UUID id) {
+        LOG.debugf("Exibindo formulário de edição de contatos de emergência da pessoa: %s", id);
         Pessoa pessoa = pessoaService.buscarPorId(id);
         notFoundIfNull(pessoa);
         return Templates.editarContatosEmergencia(pessoa, contatoEmergenciaService.listarPorPessoa(id));
@@ -351,16 +360,20 @@ public class Pessoas extends Controller {
             @RestForm @NotBlank String nome,
             @RestForm String parentesco,
             @RestForm @NotBlank String telefone) {
+        LOG.infof("Adicionando contato de emergência (edição) para pessoa: %s", id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         if (validationFailed()) {
+            LOG.debugf("Validação falhou ao adicionar contato de emergência (edição) para pessoa: %s", id);
             editarContatosEmergencia(id);
         }
         contatoEmergenciaService.adicionar(id, nome, parentesco, telefone);
+        LOG.infof("Contato de emergência adicionado (edição) para pessoa: %s", id);
         editarContatosEmergencia(id);
     }
 
     @POST
     public void excluirContatoEmergenciaEdicao(@RestPath UUID id, @RestPath UUID contatoId) {
+        LOG.infof("Excluindo contato de emergência %s da pessoa (edição): %s", contatoId, id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         contatoEmergenciaService.excluir(contatoId);
         editarContatosEmergencia(id);
@@ -368,8 +381,10 @@ public class Pessoas extends Controller {
 
     @POST
     public void excluir(@RestPath UUID id) {
+        LOG.infof("Excluindo pessoa: %s", id);
         notFoundIfNull(pessoaService.buscarPorId(id));
         pessoaService.excluir(id);
+        LOG.infof("Pessoa excluída: %s", id);
         lista();
     }
 }
