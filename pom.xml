@@ -37,6 +37,10 @@
             <version>3.1.6</version>
         </dependency>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.quarkiverse.web-bundler</groupId>
             <artifactId>quarkus-web-bundler-tailwindcss</artifactId>
             <version>2.2.1</version>

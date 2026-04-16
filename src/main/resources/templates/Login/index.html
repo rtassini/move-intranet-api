@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Intranet MOVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              move: {
+                red: '#8B1A1A',
+                'red-dark': '#6B1212',
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-sm">
+
+      <!-- Card -->
+      <div class="bg-white rounded-2xl shadow-lg px-8 py-10 flex flex-col items-center gap-6">
+
+        <!-- Logo / marca -->
+        <div class="flex flex-col items-center gap-2">
+          <span class="bg-move-red text-white text-xl font-black px-4 py-2 rounded-lg tracking-widest">MOVE</span>
+          <h1 class="text-gray-800 text-xl font-semibold tracking-wide">Intranet MOVE</h1>
+          <p class="text-gray-500 text-sm text-center">Acesse com sua conta Google corporativa</p>
+        </div>
+
+        <hr class="w-full border-gray-200" />
+
+        <!-- Botão Google -->
+        <a href="/Home/index"
+           class="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors">
+          <!-- Google SVG icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5">
+            <path fill="#4285F4" d="M47.5 24.5c0-1.6-.1-3.2-.4-4.7H24v8.9h13.2c-.6 3-2.3 5.6-4.9 7.3v6h7.9c4.6-4.3 7.3-10.6 7.3-17.5z"/>
+            <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.9-6c-2.2 1.5-5 2.3-8 2.3-6.1 0-11.3-4.1-13.2-9.7H2.7v6.2C6.6 42.6 14.7 48 24 48z"/>
+            <path fill="#FBBC05" d="M10.8 28.8c-.5-1.5-.8-3-.8-4.8s.3-3.3.8-4.8v-6.2H2.7C1 16.4 0 20.1 0 24s1 7.6 2.7 10.9l8.1-6.1z"/>
+            <path fill="#EA4335" d="M24 9.5c3.4 0 6.5 1.2 8.9 3.5l6.6-6.6C35.9 2.5 30.5 0 24 0 14.7 0 6.6 5.4 2.7 13.1l8.1 6.2C12.7 13.6 17.9 9.5 24 9.5z"/>
+          </svg>
+          Entrar com Google
+        </a>
+
+      </div>
+
+      <!-- Footer -->
+      <p class="text-center text-xs text-gray-400 mt-6">
+        Move Telecom &middot; Uso interno
+      </p>
+
+    </div>
+
+  </body>
+</html>
